@@ -1,0 +1,1825 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🔋 [BAT]ERÍA SOCIAL DE BATMAN</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js">
+    </script>
+    <style>
+        /* ===== RESET Y ESTILOS GENERALES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: radial-gradient(ellipse at center, #0f0c29, #302b63, #24243e);
+            padding: 12px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(2px 2px at 40px 70px, rgba(255, 255, 255, 0.2), transparent),
+                radial-gradient(2px 2px at 50px 160px, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(2px 2px at 90px 40px, rgba(255, 255, 255, 0.2), transparent),
+                radial-gradient(2px 2px at 130px 80px, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.2), transparent);
+            background-size: 200px 200px;
+            opacity: 0.5;
+            z-index: 0;
+            pointer-events: none;
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        /* ===== CONTENEDOR PRINCIPAL ===== */
+        .container {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 48px;
+            padding: 24px 20px 30px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow:
+                0 30px 60px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                0 0 80px rgba(72, 219, 251, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            max-height: 98vh;
+            overflow-y: auto;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.10), rgba(72, 219, 251, 0.06));
+            padding: 12px 24px 10px 24px;
+            border-radius: 40px;
+            border: 1px solid rgba(251, 191, 36, 0.12);
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.03);
+            text-align: center;
+        }
+
+        .header h1 .line1 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .header h1 .line2 {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 2px;
+        }
+
+        .header h1 .title-word,
+        .header h1 .title-bracket,
+        .header h1 .title-bat,
+        .header h1 .title-eria,
+        .header h1 .title-social {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: clamp(18px, 3.4vw, 28px);
+            letter-spacing: -0.3px;
+            -webkit-text-fill-color: #ffffff;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+        }
+
+        .header h1 .title-of {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 300;
+            font-size: clamp(14px, 2.4vw, 20px);
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.4);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        .header h1 .title-name {
+            font-size: clamp(20px, 3.8vw, 30px);
+            font-weight: 800;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 40%, #d97706 70%, #fbbf24 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            animation: goldShine 3s ease-in-out infinite;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes goldShine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .header h1 .line-divider {
+            display: block;
+            width: 35%;
+            height: 1.5px;
+            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.25), transparent);
+            margin: 3px auto;
+            border-radius: 2px;
+        }
+
+        /* ===== BATERÍA ===== */
+        .battery-main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: clamp(240px, 45vh, 350px);
+            padding: 4px 0;
+        }
+
+        .battery-terminal {
+            width: clamp(24px, 4.5vw, 36px);
+            height: clamp(8px, 1.5vw, 12px);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+            border-radius: 8px 8px 0 0;
+            border: 3px solid rgba(255, 255, 255, 0.15);
+            border-bottom: none;
+            margin-bottom: -1px;
+            z-index: 2;
+            transition: all 0.5s ease;
+            box-shadow: 0 0 20px rgba(72, 219, 251, 0.1);
+        }
+
+        .battery-body {
+            position: relative;
+            width: 100%;
+            max-width: clamp(200px, 50vw, 320px);
+            height: clamp(140px, 30vh, 240px);
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            border: 3px solid rgba(255, 255, 255, 0.12);
+            overflow: hidden;
+            box-shadow:
+                inset 0 -8px 30px rgba(0, 0, 0, 0.4),
+                0 0 40px rgba(72, 219, 251, 0.08),
+                inset 0 0 60px rgba(72, 219, 251, 0.03);
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .liquid-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            transition: height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .liquid-base {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transition: background 0.8s ease;
+            border-radius: 12px 12px 0 0;
+            box-shadow: inset 0 0 40px rgba(255, 255, 255, 0.05);
+        }
+
+        .wave {
+            position: absolute;
+            top: -20px;
+            left: -50%;
+            width: 200%;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            animation: waveMove 4s ease-in-out infinite;
+            pointer-events: none;
+            transform-origin: center;
+            filter: blur(1px);
+        }
+
+        .wave::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10%;
+            width: 120%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            animation: waveMove 5s ease-in-out infinite reverse;
+            pointer-events: none;
+        }
+
+        .wave:nth-child(1) {
+            animation-duration: 3.5s;
+            animation-delay: 0s;
+            opacity: 0.8;
+            height: 45px;
+        }
+        .wave:nth-child(2) {
+            animation-duration: 4.2s;
+            animation-delay: 0.8s;
+            opacity: 0.6;
+            height: 35px;
+            top: -12px;
+        }
+        .wave:nth-child(3) {
+            animation-duration: 3.8s;
+            animation-delay: 1.6s;
+            opacity: 0.5;
+            height: 50px;
+            top: -22px;
+        }
+        .wave:nth-child(4) {
+            animation-duration: 4.8s;
+            animation-delay: 0.4s;
+            opacity: 0.4;
+            height: 30px;
+            top: -8px;
+        }
+
+        @keyframes waveMove {
+            0% { transform: translateX(0) translateY(0) scaleY(1) rotate(0deg); }
+            25% { transform: translateX(8%) translateY(-8px) scaleY(1.15) rotate(1deg); }
+            50% { transform: translateX(0) translateY(0) scaleY(1) rotate(0deg); }
+            75% { transform: translateX(-8%) translateY(8px) scaleY(0.85) rotate(-1deg); }
+            100% { transform: translateX(0) translateY(0) scaleY(1) rotate(0deg); }
+        }
+
+        .liquid-shine {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
+            border-radius: 12px 12px 0 0;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        .liquid-shine::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 300%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.08) 30%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.08) 70%, transparent 100%);
+            animation: shineSlide 6s ease-in-out infinite;
+        }
+
+        @keyframes shineSlide {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(50%); }
+            100% { transform: translateX(0); }
+        }
+
+        .liquid-bubbles {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            border-radius: 12px 12px 0 0;
+            z-index: 2;
+        }
+
+        .liquid-bubble {
+            position: absolute;
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.03));
+            border-radius: 50%;
+            animation: bubbleFloat 4s ease-in-out infinite;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+        }
+
+        .liquid-bubble:nth-child(1) {
+            width: 10px;
+            height: 10px;
+            left: 8%;
+            bottom: 5%;
+            animation-delay: 0s;
+            animation-duration: 3.2s;
+        }
+        .liquid-bubble:nth-child(2) {
+            width: 7px;
+            height: 7px;
+            left: 22%;
+            bottom: 15%;
+            animation-delay: 1.2s;
+            animation-duration: 2.8s;
+        }
+        .liquid-bubble:nth-child(3) {
+            width: 14px;
+            height: 14px;
+            left: 42%;
+            bottom: 0%;
+            animation-delay: 0.6s;
+            animation-duration: 3.8s;
+        }
+        .liquid-bubble:nth-child(4) {
+            width: 8px;
+            height: 8px;
+            left: 60%;
+            bottom: 10%;
+            animation-delay: 1.8s;
+            animation-duration: 3.0s;
+        }
+        .liquid-bubble:nth-child(5) {
+            width: 5px;
+            height: 5px;
+            left: 78%;
+            bottom: 8%;
+            animation-delay: 0.4s;
+            animation-duration: 4.2s;
+        }
+        .liquid-bubble:nth-child(6) {
+            width: 12px;
+            height: 12px;
+            left: 50%;
+            bottom: 25%;
+            animation-delay: 2.0s;
+            animation-duration: 3.5s;
+        }
+        .liquid-bubble:nth-child(7) {
+            width: 7px;
+            height: 7px;
+            left: 90%;
+            bottom: 20%;
+            animation-delay: 0.9s;
+            animation-duration: 3.1s;
+        }
+        .liquid-bubble:nth-child(8) {
+            width: 9px;
+            height: 9px;
+            left: 32%;
+            bottom: 40%;
+            animation-delay: 1.5s;
+            animation-duration: 2.6s;
+        }
+
+        @keyframes bubbleFloat {
+            0% { transform: translateY(0) scale(0.3) rotate(0deg); opacity: 0; }
+            15% { opacity: 1; transform: translateY(-15px) scale(1) rotate(10deg); }
+            85% { opacity: 1; transform: translateY(-70px) scale(1.1) rotate(30deg); }
+            100% { transform: translateY(-100px) scale(1.3) rotate(45deg); opacity: 0; }
+        }
+
+        .battery-segments {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, transparent, transparent 24px, rgba(255, 255, 255, 0.04) 24px, rgba(255, 255, 255, 0.04) 25px);
+            border-radius: 12px 12px 0 0;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        /* ===== PORCENTAJE - BLANCO SÓLIDO Y GRANDE ===== */
+        .percentage {
+            font-size: clamp(72px, 16vw, 110px);
+            font-weight: 900;
+            color: #ffffff;
+            margin-top: clamp(12px, 2vh, 20px);
+            letter-spacing: -4px;
+            font-variant-numeric: tabular-nums;
+            text-shadow:
+                0 0 40px rgba(255, 255, 255, 0.15),
+                0 0 80px rgba(72, 219, 251, 0.1),
+                0 4px 20px rgba(0, 0, 0, 0.3);
+            line-height: 1;
+            -webkit-text-fill-color: #ffffff;
+            background: none;
+        }
+
+        .percentage small {
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.4);
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ===== ESTADO ===== */
+        .status-label {
+            font-size: clamp(20px, 3.2vw, 28px);
+            font-weight: 700;
+            color: #fff;
+            margin-top: 4px;
+            padding: 8px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.4s ease;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            text-shadow: 0 0 30px rgba(72, 219, 251, 0.1);
+        }
+
+        /* ===== SIGNIFICADO ===== */
+        .meaning-section {
+            margin-top: clamp(14px, 2.5vh, 22px);
+            padding: clamp(16px, 2.5vw, 24px) clamp(16px, 3vw, 26px);
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            width: 100%;
+            max-width: 100%;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 0 30px rgba(72, 219, 251, 0.03);
+            overflow: visible;
+            word-wrap: break-word;
+        }
+
+        .meaning-section .level-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .meaning-section .level-indicator .range {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: clamp(11px, 1.6vw, 14px);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .meaning-section .level-indicator .emoji-big {
+            font-size: clamp(28px, 4.5vw, 36px);
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.1));
+        }
+
+        .meaning-section .title {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: clamp(10px, 1.4vw, 12px);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .meaning-section .message {
+            color: #e2e8f0;
+            font-size: clamp(15px, 2.2vw, 18px);
+            line-height: 1.7;
+            font-weight: 400;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+
+        .meaning-section .message .highlight {
+            font-weight: 700;
+            transition: color 0.5s ease;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+            font-size: clamp(17px, 2.5vw, 20px);
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+
+        .meaning-section .message .advice {
+            display: block;
+            margin-top: 10px;
+            padding: clamp(12px, 1.8vw, 16px) clamp(14px, 2.2vw, 18px);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            border-left: 4px solid rgba(72, 219, 251, 0.3);
+            color: #a8b4d0;
+            font-size: clamp(14px, 2vw, 17px);
+            font-style: italic;
+            backdrop-filter: blur(4px);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            line-height: 1.6;
+        }
+
+        .meaning-section .message .advice strong {
+            color: #fbbf24;
+            font-style: normal;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
+        }
+
+        /* ===== MENÚ FLOTANTE ===== */
+        .floating-menu {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0;
+        }
+
+        .floating-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: clamp(20px, 3vw, 28px);
+            width: clamp(50px, 7vw, 60px);
+            height: clamp(50px, 7vw, 60px);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            z-index: 2;
+        }
+
+        .floating-toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.8);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+
+        .floating-toggle:active {
+            transform: scale(0.95);
+        }
+
+        .floating-toggle.active {
+            background: rgba(72, 219, 251, 0.15);
+            border-color: rgba(72, 219, 251, 0.3);
+            color: #48dbfb;
+            box-shadow: 0 0 40px rgba(72, 219, 251, 0.2);
+            transform: rotate(45deg);
+        }
+
+        .floating-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-top: 0;
+            padding-left: 6px;
+            pointer-events: none;
+        }
+
+        .floating-buttons.open {
+            max-height: 300px;
+            opacity: 1;
+            margin-top: 12px;
+            pointer-events: all;
+        }
+
+        .floating-btn {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.4);
+            font-size: clamp(16px, 2.2vw, 22px);
+            width: clamp(44px, 5.5vw, 52px);
+            height: clamp(44px, 5.5vw, 52px);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .floating-buttons.open .floating-btn {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .floating-btn:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: rgba(255, 255, 255, 0.7);
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: scale(1.05);
+        }
+
+        .floating-btn:active {
+            transform: scale(0.95);
+        }
+
+        .floating-btn.share-btn {
+            background: rgba(37, 211, 102, 0.08);
+            border-color: rgba(37, 211, 102, 0.10);
+            color: rgba(37, 211, 102, 0.4);
+        }
+
+        .floating-btn.share-btn:hover {
+            background: rgba(37, 211, 102, 0.15);
+            color: #25d366;
+            border-color: rgba(37, 211, 102, 0.2);
+            box-shadow: 0 0 30px rgba(37, 211, 102, 0.1);
+        }
+
+        /* ===== PANEL ADMIN ===== */
+        .admin-panel {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease, margin 0.4s ease;
+            opacity: 0;
+            margin-top: 0;
+        }
+
+        .admin-panel.open {
+            max-height: 450px;
+            opacity: 1;
+            margin-top: clamp(16px, 2.5vh, 24px);
+        }
+
+        .admin-panel-inner {
+            padding-top: clamp(14px, 2vh, 20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(10px, 1.5vh, 14px);
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: clamp(10px, 2vw, 14px);
+        }
+
+        .slider-container label {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: clamp(11px, 1.4vw, 13px);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            min-width: clamp(40px, 7vw, 50px);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            flex: 1;
+            height: 5px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            outline: none;
+            transition: background 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: clamp(18px, 2.8vw, 22px);
+            height: clamp(18px, 2.8vw, 22px);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #48dbfb, #0abde3);
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(72, 219, 251, 0.4), 0 0 60px rgba(72, 219, 251, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: 0.15s ease;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.12);
+            box-shadow: 0 0 50px rgba(72, 219, 251, 0.6);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: clamp(18px, 2.8vw, 22px);
+            height: clamp(18px, 2.8vw, 22px);
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #48dbfb, #0abde3);
+            cursor: pointer;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 30px rgba(72, 219, 251, 0.4);
+        }
+
+        .quick-buttons {
+            display: flex;
+            gap: clamp(4px, 0.8vw, 8px);
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .quick-btn {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.6);
+            padding: clamp(4px, 0.6vw, 6px) clamp(6px, 1.2vw, 12px);
+            border-radius: 40px;
+            font-size: clamp(9px, 1.2vw, 11px);
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s ease;
+            backdrop-filter: blur(4px);
+            flex: 1 0 auto;
+            max-width: clamp(50px, 10vw, 75px);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .quick-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            transform: translateY(-2px) scale(1.02);
+            border-color: rgba(72, 219, 251, 0.2);
+            box-shadow: 0 0 30px rgba(72, 219, 251, 0.05);
+        }
+
+        .quick-btn:active {
+            transform: scale(0.96);
+        }
+
+        .quick-btn .btn-label {
+            display: block;
+            font-size: clamp(7px, 0.9vw, 9px);
+            opacity: 0.4;
+            font-weight: 300;
+        }
+
+        .activity-log {
+            margin-top: clamp(10px, 1.5vh, 16px);
+        }
+
+        .activity-log h4 {
+            color: rgba(255, 255, 255, 0.25);
+            font-size: clamp(9px, 1.1vw, 11px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: clamp(5px, 0.8vh, 8px);
+        }
+
+        .log-entries {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            max-height: 70px;
+            overflow-y: auto;
+            padding-right: 6px;
+        }
+
+        .log-entries::-webkit-scrollbar {
+            width: 3px;
+        }
+        .log-entries::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+        }
+        .log-entries::-webkit-scrollbar-thumb {
+            background: rgba(72, 219, 251, 0.2);
+            border-radius: 10px;
+        }
+
+        .log-entry {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: clamp(10px, 1.2vw, 12px);
+            padding: 2px 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            border-left: 3px solid rgba(72, 219, 251, 0.15);
+            display: flex;
+            justify-content: space-between;
+            animation: fadeIn 0.3s ease;
+            transition: all 0.3s ease;
+        }
+
+        .log-entry:hover {
+            color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .log-entry .time {
+            color: rgba(255, 255, 255, 0.2);
+            font-size: clamp(8px, 0.9vw, 10px);
+            font-weight: 500;
+        }
+
+        .close-admin {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.3);
+            font-size: clamp(10px, 1.2vw, 12px);
+            padding: 4px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.3s ease;
+            margin-top: clamp(6px, 1vh, 10px);
+        }
+
+        .close-admin:hover {
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.6);
+            border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-8px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ===== MODAL CONTRASEÑA ===== */
+        .password-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .password-modal.active {
+            display: flex;
+        }
+
+        .password-box {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            padding: clamp(24px, 4vw, 36px);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            max-width: 340px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .password-box h2 {
+            color: #fff;
+            font-size: clamp(17px, 2.8vw, 21px);
+            margin-bottom: 6px;
+            text-shadow: 0 0 30px rgba(72, 219, 251, 0.1);
+        }
+
+        .password-box p {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: clamp(12px, 1.6vw, 14px);
+            margin-bottom: clamp(16px, 2.5vh, 22px);
+        }
+
+        .password-box input {
+            width: 100%;
+            padding: clamp(10px, 1.8vw, 14px) clamp(12px, 2vw, 16px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
+            color: #fff;
+            font-size: clamp(13px, 1.8vw, 15px);
+            font-family: 'Segoe UI', sans-serif;
+            transition: 0.3s ease;
+            outline: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .password-box input:focus {
+            border-color: rgba(72, 219, 251, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 30px rgba(72, 219, 251, 0.05);
+        }
+
+        .password-box input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .password-box .error-msg {
+            color: #ff6b6b;
+            font-size: clamp(11px, 1.4vw, 13px);
+            margin-top: 10px;
+            min-height: 20px;
+        }
+
+        .password-box .btn-login {
+            margin-top: 14px;
+            width: 100%;
+            padding: clamp(10px, 1.8vw, 14px);
+            border-radius: 16px;
+            border: none;
+            background: linear-gradient(135deg, #48dbfb, #0abde3);
+            color: #fff;
+            font-size: clamp(13px, 1.8vw, 15px);
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s ease;
+            box-shadow: 0 0 40px rgba(72, 219, 251, 0.2);
+        }
+
+        .password-box .btn-login:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 60px rgba(72, 219, 251, 0.4);
+        }
+
+        .password-box .btn-login:active {
+            transform: scale(0.98);
+        }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 3000;
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: none;
+            text-align: center;
+            max-width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast.success {
+            border-color: rgba(37, 211, 102, 0.3);
+            box-shadow: 0 0 40px rgba(37, 211, 102, 0.1);
+        }
+
+        .toast.error {
+            border-color: rgba(255, 107, 107, 0.3);
+            box-shadow: 0 0 40px rgba(255, 107, 107, 0.1);
+        }
+
+        .toast .toast-icon {
+            margin-right: 8px;
+        }
+
+        /* ===== ANIMACIÓN CRÍTICA ===== */
+        @keyframes pulse-critical {
+            0%,
+            100% {
+                border-color: rgba(255, 80, 80, 0.3);
+                box-shadow: 0 0 40px rgba(255, 80, 80, 0.1), inset 0 0 60px rgba(255, 80, 80, 0.05);
+            }
+            50% {
+                border-color: rgba(255, 50, 50, 0.7);
+                box-shadow: 0 0 80px rgba(255, 50, 50, 0.3), inset 0 0 80px rgba(255, 80, 80, 0.1);
+            }
+        }
+
+        .battery-body.critical {
+            animation: pulse-critical 1.2s ease-in-out infinite;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 480px) {
+            .container {
+                padding: 16px 12px 20px;
+                border-radius: 28px;
+            }
+            .header h1 {
+                padding: 10px 16px 8px 16px;
+                border-radius: 30px;
+            }
+            .header h1 .title-word,
+            .header h1 .title-bracket,
+            .header h1 .title-bat,
+            .header h1 .title-eria,
+            .header h1 .title-social {
+                font-size: 16px;
+            }
+            .header h1 .title-of {
+                font-size: 12px;
+            }
+            .header h1 .title-name {
+                font-size: 18px;
+            }
+            .battery-body {
+                max-width: clamp(180px, 65vw, 240px);
+                height: clamp(130px, 28vh, 180px);
+            }
+            .battery-terminal {
+                width: clamp(20px, 5vw, 28px);
+                height: 8px;
+            }
+            .meaning-section {
+                padding: 14px 16px;
+            }
+            .meaning-section .message {
+                font-size: 14px;
+            }
+            .meaning-section .message .advice {
+                font-size: 13px;
+                padding: 10px 14px;
+            }
+            .status-label {
+                font-size: 17px;
+                padding: 5px 16px;
+            }
+            .percentage {
+                font-size: 56px;
+            }
+            .percentage small {
+                font-size: 22px;
+            }
+            .quick-btn {
+                padding: 2px 5px;
+                max-width: clamp(42px, 12vw, 58px);
+                font-size: 8px;
+            }
+            .quick-btn .btn-label {
+                font-size: 6px;
+            }
+            .password-box {
+                padding: 20px 16px;
+            }
+            .floating-menu {
+                bottom: 16px;
+                left: 16px;
+            }
+            .floating-toggle {
+                width: 48px;
+                height: 48px;
+                font-size: 20px;
+            }
+            .floating-btn {
+                width: 42px;
+                height: 42px;
+                font-size: 16px;
+            }
+            .floating-buttons {
+                gap: 8px;
+            }
+            .liquid-bubble {
+                display: none;
+            }
+            .wave {
+                height: 25px !important;
+                top: -8px !important;
+            }
+            .toast {
+                bottom: 80px;
+                font-size: 13px;
+                padding: 10px 18px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .container {
+                padding: 12px 10px 16px;
+                border-radius: 24px;
+            }
+            .header h1 {
+                padding: 8px 12px 6px 12px;
+                border-radius: 24px;
+            }
+            .header h1 .title-word,
+            .header h1 .title-bracket,
+            .header h1 .title-bat,
+            .header h1 .title-eria,
+            .header h1 .title-social {
+                font-size: 14px;
+            }
+            .header h1 .title-of {
+                font-size: 11px;
+            }
+            .header h1 .title-name {
+                font-size: 16px;
+            }
+            .battery-body {
+                max-width: clamp(140px, 55vw, 180px);
+                height: clamp(100px, 22vh, 140px);
+            }
+            .percentage {
+                font-size: 42px;
+            }
+            .percentage small {
+                font-size: 18px;
+            }
+            .meaning-section {
+                padding: 12px 14px;
+            }
+            .meaning-section .message {
+                font-size: 13px;
+            }
+            .meaning-section .message .advice {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+            .status-label {
+                font-size: 15px;
+                padding: 4px 12px;
+            }
+            .quick-btn {
+                padding: 2px 4px;
+                max-width: clamp(36px, 10vw, 48px);
+                font-size: 7px;
+            }
+            .quick-btn .btn-label {
+                font-size: 6px;
+            }
+            .floating-toggle {
+                width: 42px;
+                height: 42px;
+                font-size: 18px;
+            }
+            .floating-btn {
+                width: 38px;
+                height: 38px;
+                font-size: 14px;
+            }
+            .liquid-bubble {
+                display: none;
+            }
+            .wave {
+                height: 20px !important;
+                top: -6px !important;
+            }
+            .toast {
+                bottom: 70px;
+                font-size: 12px;
+                padding: 8px 14px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                padding: 40px 38px 44px;
+                border-radius: 52px;
+                max-width: 560px;
+            }
+            .header h1 {
+                padding: 16px 34px 12px 34px;
+                border-radius: 50px;
+            }
+            .header h1 .title-word,
+            .header h1 .title-bracket,
+            .header h1 .title-bat,
+            .header h1 .title-eria,
+            .header h1 .title-social {
+                font-size: 28px;
+            }
+            .header h1 .title-of {
+                font-size: 20px;
+            }
+            .header h1 .title-name {
+                font-size: 30px;
+            }
+            .battery-body {
+                max-width: 360px;
+                height: 280px;
+            }
+            .percentage {
+                font-size: 96px;
+            }
+            .percentage small {
+                font-size: 38px;
+            }
+            .floating-toggle {
+                width: 60px;
+                height: 60px;
+                font-size: 28px;
+            }
+            .floating-btn {
+                width: 52px;
+                height: 52px;
+                font-size: 22px;
+            }
+            .meaning-section {
+                padding: 24px 28px;
+            }
+            .status-label {
+                font-size: 26px;
+                padding: 8px 28px;
+            }
+            .toast {
+                bottom: 120px;
+                font-size: 15px;
+                padding: 14px 28px;
+            }
+            .floating-menu {
+                bottom: 30px;
+                left: 30px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 600px;
+            }
+            .battery-body {
+                max-width: 400px;
+                height: 300px;
+            }
+            .meaning-section {
+                padding: 26px 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">📱</span>
+        <span class="toast-text">Captura lista para compartir</span>
+    </div>
+
+    <!-- ===== MODAL CONTRASEÑA ===== -->
+    <div class="password-modal" id="passwordModal">
+        <div class="password-box">
+            <h2>🔐 Acceso restringido</h2>
+            <p>Ingresa la contraseña para continuar</p>
+            <input type="password" id="passwordInput" placeholder="Contraseña" autocomplete="off" />
+            <div class="error-msg" id="errorMsg"></div>
+            <button class="btn-login" id="loginBtn">Desbloquear</button>
+        </div>
+    </div>
+
+    <!-- ===== CONTENEDOR PRINCIPAL ===== -->
+    <div class="container" id="captureContainer">
+
+        <div class="header">
+            <h1>
+                <span class="line1">
+                    <span class="title-bracket">[</span>
+                    <span class="title-bat">BAT</span>
+                    <span class="title-bracket">]</span>
+                    <span class="title-eria">ERÍA</span>
+                    <span class="title-word">SOCIAL</span>
+                </span>
+                <span class="line-divider"></span>
+                <span class="line2">
+                    <span class="title-of">DE</span>
+                    <span class="title-name">BATMAN</span>
+                </span>
+            </h1>
+        </div>
+
+        <div class="battery-main">
+            <div class="battery-terminal" id="batteryTerminal"></div>
+            <div class="battery-body" id="batteryBody">
+                <div class="liquid-container" id="liquidContainer">
+                    <div class="liquid-base" id="liquidBase"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="liquid-shine"></div>
+                    <div class="liquid-bubbles">
+                        <div class="liquid-bubble"></div>
+                        <div class="liquid-bubble"></div>
+                        <div class="liquid-bubble"></div>
+                        <div class="liquid-bubble"></div>
+                        <div class="liquid-bubble"></div>
+                        <div class="liquid-bubble"></div>
+                        <div class="liquid-bubble"></div>
+                        <div class="liquid-bubble"></div>
+                    </div>
+                </div>
+                <div class="battery-segments"></div>
+            </div>
+            <div class="percentage" id="percentageDisplay">
+                100<small>%</small>
+            </div>
+            <div class="status-label" id="statusLabel">⚡ Energía Explosiva</div>
+
+            <div class="meaning-section" id="meaningSection">
+                <div class="level-indicator">
+                    <span class="range" id="levelRange">100%</span>
+                    <span class="emoji-big" id="levelEmoji">⚡</span>
+                </div>
+                <div class="title">📖 Cómo interactuar conmigo ahora</div>
+                <div class="message" id="meaningText">
+                    <span class="highlight" style="color: #ffffff;">100%</span> —
+                    ¡Batería al 100%! Energía infinita, creatividad y carisma en su punto máximo.
+                    <span class="advice">
+                        <strong>💬 Consejo:</strong> ¡Es el momento de brillar! Invítame a eventos, proyectos o aventuras. Estoy imparable y listo para todo.
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL ADMIN -->
+        <div class="admin-panel" id="adminPanel">
+            <div class="admin-panel-inner">
+                <div class="controls">
+                    <div class="slider-container">
+                        <label for="batterySlider">Nivel</label>
+                        <input type="range" id="batterySlider" min="0" max="100" value="100" />
+                    </div>
+                    <div class="quick-buttons">
+                        <button class="quick-btn" data-value="0">💀 Vacío<span class="btn-label">0%</span></button>
+                        <button class="quick-btn" data-value="20">🪫 Agotado<span class="btn-label">20%</span></button>
+                        <button class="quick-btn" data-value="40">😐 Justo<span class="btn-label">40%</span></button>
+                        <button class="quick-btn" data-value="60">🙂 Bueno<span class="btn-label">60%</span></button>
+                        <button class="quick-btn" data-value="80">😊 Muy bien<span class="btn-label">80%</span></button>
+                        <button class="quick-btn" data-value="100">⚡ Lleno<span class="btn-label">100%</span></button>
+                    </div>
+                </div>
+                <div class="activity-log">
+                    <h4>📋 Últimas actividades</h4>
+                    <div class="log-entries" id="logEntries">
+                        <div class="log-entry"><span>🔋 Recarga completa</span><span class="time">ahora</span></div>
+                    </div>
+                </div>
+                <button class="close-admin" id="closeAdmin">Cerrar panel 🔒</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== MENÚ FLOTANTE ===== -->
+    <div class="floating-menu">
+        <button class="floating-toggle" id="menuToggle" title="Abrir/cerrar menú">⚡</button>
+        <div class="floating-buttons" id="floatingButtons">
+            <button class="floating-btn" id="adminToggle" title="Panel de control">🔧</button>
+            <button class="floating-btn share-btn" id="shareBtn" title="Compartir en WhatsApp">💬</button>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== ELEMENTOS DOM =====
+            const slider = document.getElementById('batterySlider');
+            const liquidContainer = document.getElementById('liquidContainer');
+            const liquidBase = document.getElementById('liquidBase');
+            const percentageDisplay = document.getElementById('percentageDisplay');
+            const statusLabel = document.getElementById('statusLabel');
+            const batteryBody = document.getElementById('batteryBody');
+            const batteryTerminal = document.getElementById('batteryTerminal');
+            const logEntries = document.getElementById('logEntries');
+            const adminToggle = document.getElementById('adminToggle');
+            const adminPanel = document.getElementById('adminPanel');
+            const passwordModal = document.getElementById('passwordModal');
+            const passwordInput = document.getElementById('passwordInput');
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            const closeAdminBtn = document.getElementById('closeAdmin');
+            const meaningText = document.getElementById('meaningText');
+            const levelRange = document.getElementById('levelRange');
+            const levelEmoji = document.getElementById('levelEmoji');
+            const shareBtn = document.getElementById('shareBtn');
+            const captureContainer = document.getElementById('captureContainer');
+            const toast = document.getElementById('toast');
+            const menuToggle = document.getElementById('menuToggle');
+            const floatingButtons = document.getElementById('floatingButtons');
+
+            // ===== ESTADO =====
+            let currentLevel = 100;
+            let isAdminMode = false;
+            let isMenuOpen = false;
+            let pendingAction = null;
+            const PASSWORD = 'Batman';
+
+            // ===== TOAST =====
+            let toastTimeout = null;
+
+            function showToast(message, type = 'info', duration = 3000) {
+                const toastText = toast.querySelector('.toast-text');
+                const toastIcon = toast.querySelector('.toast-icon');
+                toastText.textContent = message;
+                toast.className = 'toast';
+                if (type === 'success') {
+                    toast.classList.add('success');
+                    toastIcon.textContent = '✅';
+                } else if (type === 'error') {
+                    toast.classList.add('error');
+                    toastIcon.textContent = '❌';
+                } else {
+                    toastIcon.textContent = '📱';
+                }
+                toast.classList.add('show');
+                if (toastTimeout) clearTimeout(toastTimeout);
+                toastTimeout = setTimeout(() => {
+                    toast.classList.remove('show');
+                }, duration);
+            }
+
+            // ===== TOGGLE MENÚ =====
+            function toggleMenu() {
+                isMenuOpen = !isMenuOpen;
+                floatingButtons.classList.toggle('open');
+                menuToggle.classList.toggle('active');
+                menuToggle.textContent = isMenuOpen ? '✕' : '⚡';
+            }
+
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                toggleMenu();
+            });
+
+            document.addEventListener('click', function(e) {
+                const menu = document.querySelector('.floating-menu');
+                if (isMenuOpen && !menu.contains(e.target)) {
+                    toggleMenu();
+                }
+            });
+
+            // ===== FUNCIÓN COMPARTIR =====
+            async function shareScreenshot() {
+                try {
+                    showToast('📸 Capturando pantalla...', 'info', 2000);
+
+                    if (isMenuOpen) toggleMenu();
+                    await new Promise(resolve => setTimeout(resolve, 300));
+
+                    const canvas = await html2canvas(captureContainer, {
+                        scale: 2.8,
+                        backgroundColor: '#1a1a2e',
+                        allowTaint: true,
+                        useCORS: true,
+                        logging: false,
+                        width: captureContainer.scrollWidth,
+                        height: captureContainer.scrollHeight,
+                        windowWidth: captureContainer.scrollWidth,
+                        windowHeight: captureContainer.scrollHeight,
+                        onclone: function(clonedDoc) {
+                            const container = clonedDoc.getElementById('captureContainer');
+                            if (container) {
+                                container.style.background = 'rgba(255,255,255,0.04)';
+                                container.style.backdropFilter = 'blur(20px)';
+                                container.style.border = '1px solid rgba(255,255,255,0.06)';
+                                container.style.borderRadius = '48px';
+                                container.style.color = '#ffffff';
+                                // Forzar porcentaje blanco
+                                const pct = container.querySelector('.percentage');
+                                if (pct) {
+                                    pct.style.color = '#ffffff';
+                                    pct.style.webkitTextFillColor = '#ffffff';
+                                    pct.style.background = 'none';
+                                }
+                            }
+                        }
+                    });
+
+                    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                    const file = new File([blob], 'bateria_social_batman.png', { type: 'image/png' });
+
+                    if (navigator.share && window.innerWidth < 768) {
+                        try {
+                            await navigator.share({
+                                title: 'Mi Batería Social',
+                                text: '🔋 ¡Mira mi nivel de energía social! 🦇\n\n' +
+                                    `Nivel: ${currentLevel}% - ${getSocialMessage(currentLevel).estado}\n` +
+                                    '📊 [BAT]ERÍA SOCIAL DE BATMAN',
+                                files: [file]
+                            });
+                            showToast('✅ ¡Compartido exitosamente!', 'success');
+                            return;
+                        } catch (shareError) {
+                            if (shareError.name === 'AbortError') {
+                                showToast('⏹️ Compartición cancelada', 'info', 2000);
+                                return;
+                            }
+                        }
+                    }
+
+                    const imageUrl = canvas.toDataURL('image/png');
+                    const whatsappUrl =
+                        `https://api.whatsapp.com/send?text=${encodeURIComponent(
+                        '🔋 ¡Mira mi nivel de energía social! 🦇\n\n' +
+                        'Nivel: ' + currentLevel + '% - ' + getSocialMessage(currentLevel).estado + '\n' +
+                        '📊 [BAT]ERÍA SOCIAL DE BATMAN\n\n' +
+                        '⬇️ Adjunto imagen de mi batería social'
+                    )}`;
+
+                    window.open(whatsappUrl, '_blank');
+                    const link = document.createElement('a');
+                    link.download = 'bateria_social_batman.png';
+                    link.href = imageUrl;
+                    link.click();
+
+                    showToast('✅ Imagen descargada y WhatsApp abierto', 'success', 4000);
+
+                } catch (error) {
+                    console.error('Error al compartir:', error);
+                    showToast('❌ Error al capturar la pantalla', 'error', 3000);
+                }
+            }
+
+            // ===== VERIFICAR CONTRASEÑA =====
+            function checkPassword() {
+                const input = passwordInput.value.trim();
+                if (input === PASSWORD) {
+                    passwordModal.classList.remove('active');
+                    if (pendingAction === 'admin') {
+                        openAdmin();
+                        showToast('🔓 Panel desbloqueado', 'success', 2000);
+                    } else if (pendingAction === 'share') {
+                        showToast('📸 Capturando...', 'info', 1000);
+                        setTimeout(() => {
+                            shareScreenshot();
+                        }, 500);
+                    }
+                    pendingAction = null;
+                } else {
+                    errorMsg.textContent = '❌ Contraseña incorrecta. Intenta de nuevo.';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            }
+
+            // ===== FUNCIONES DE COLOR =====
+            function getBatteryColor(level) {
+                const hue = Math.max(0, (level / 100) * 120);
+                return `hsl(${hue}, 85%, 50%)`;
+            }
+
+            function getBorderColor(level) {
+                const hue = Math.max(0, (level / 100) * 120);
+                return `hsl(${hue}, 85%, 45%)`;
+            }
+
+            function getLiquidGradient(level) {
+                const hue = Math.max(0, (level / 100) * 120);
+                return `linear-gradient(180deg, 
+                hsl(${hue}, 90%, 60%) 0%,
+                hsl(${hue + 5}, 85%, 52%) 30%,
+                hsl(${hue + 10}, 80%, 44%) 60%,
+                hsl(${hue + 15}, 75%, 36%) 100%
+            )`;
+            }
+
+            // ===== MENSAJES =====
+            function getSocialMessage(level) {
+                const messages = [
+                    { min: 100, max: 100, emoji: '⚡', range: '100%', estado: 'Energía Explosiva',
+                        msg: '¡Batería al 100%! Energía infinita, creatividad y carisma en su punto máximo.',
+                        advice: '💬 <strong>¡Es el momento de brillar!</strong> Invítame a eventos, proyectos o aventuras. Estoy imparable y listo para todo.'
+                    },
+                    { min: 90, max: 99, emoji: '⚡', range: '90% - 99%', estado: 'Casi al Máximo',
+                        msg: 'Energía casi al tope. Mi mejor versión está lista para socializar y crear.',
+                        advice: '💬 <strong>Momento ideal para conectar.</strong> Estoy súper receptivo, con ganas de planes grandes y conversaciones épicas.'
+                    },
+                    { min: 80, max: 89, emoji: '🌟', range: '80% - 89%', estado: 'Excelente Energía',
+                        msg: 'Me siento genial. Tengo buena disposición para interactuar y disfrutar.',
+                        advice: '💬 <strong>¡Disfruta el momento!</strong> Soy buena compañía, pero no abuses de mi energía. Aún necesito mantener el ritmo.'
+                    },
+                    { min: 70, max: 79, emoji: '😊', range: '70% - 79%', estado: 'Muy Buena',
+                        msg: 'Energía saludable. Socializo bien y tengo buen humor.',
+                        advice: '💬 <strong>Aprovecha mi buena onda</strong>, pero evita extender demasiado las interacciones. Un buen plan con pausas es perfecto.'
+                    },
+                    { min: 60, max: 69, emoji: '🙂', range: '60% - 69%', estado: 'Buena',
+                        msg: 'Nivel positivo. Disfruto socializar pero empiezo a notar algo de cansancio.',
+                        advice: '💬 <strong>Conversaciones ligeras y divertidas.</strong> Soy buen compañero, pero no fuerces temas muy profundos ahora.'
+                    },
+                    { min: 50, max: 59, emoji: '😐', range: '50% - 59%', estado: 'Media-Baja',
+                        msg: 'Energía a la mitad. Socializo pero necesito pausas frecuentes.',
+                        advice: '💬 <strong>Ve con calma.</strong> Soy buena compañía pero necesito espacios para respirar. Mejor algo tranquilo y sin presión.'
+                    },
+                    { min: 40, max: 49, emoji: '😕', range: '40% - 49%', estado: 'Baja',
+                        msg: 'Batería baja. Prefiero interacciones breves y tranquilas.',
+                        advice: '💬 <strong>Sé amable y directo.</strong> Aprecio tu compañía, pero necesito que las conversaciones sean cortas. Un café rápido o un saludo cálido es perfecto.'
+                    },
+                    { min: 30, max: 39, emoji: '😟', range: '30% - 39%', estado: 'Crítica',
+                        msg: 'Energía crítica. Necesito silencio y espacio personal urgente.',
+                        advice: '💬 <strong>Por favor, sé breve.</strong> No es personal, solo necesito recargar. Un mensaje corto o un gesto amable sin exigir conversación es lo mejor.'
+                    },
+                    { min: 20, max: 29, emoji: '🪫', range: '20% - 29%', estado: 'Muy Baja',
+                        msg: 'Muy bajo. Evita interacciones innecesarias.',
+                        advice: '💬 <strong>Respeta mi espacio.</strong> No estoy en mi mejor momento. Si necesitas algo, sé breve y directo. Aprecio tu comprensión.'
+                    },
+                    { min: 10, max: 19, emoji: '🔋', range: '10% - 19%', estado: 'Casi Agotado',
+                        msg: 'Casi sin energía. Silencio y soledad por favor.',
+                        advice: '💬 <strong>Por favor, dame tiempo.</strong> Estoy en modo recarga. Si es urgente, sé claro y conciso. Valoro tu paciencia.'
+                    },
+                    { min: 0, max: 9, emoji: '💀', range: '0% - 9%', estado: 'Agotado Total',
+                        msg: 'Completamente agotado. Necesito aislamiento total.',
+                        advice: '💬 <strong>Por favor, respeta mi silencio.</strong> No es contra ti, es que necesito recargar completamente. Cuando esté mejor, te buscaré. Gracias por entender.'
+                    }
+                ];
+                for (const m of messages) {
+                    if (level >= m.min && level <= m.max) return m;
+                }
+                return messages[0];
+            }
+
+            function formatTime(now) {
+                const h = String(now.getHours()).padStart(2, '0');
+                const m = String(now.getMinutes()).padStart(2, '0');
+                return `${h}:${m}`;
+            }
+
+            // ===== ACTUALIZAR UI =====
+            function updateUI(level, addLog = true, logMessage = null) {
+                const clamped = Math.min(100, Math.max(0, Math.round(level)));
+                currentLevel = clamped;
+                slider.value = clamped;
+                liquidContainer.style.height = clamped + '%';
+                liquidBase.style.background = getLiquidGradient(clamped);
+                const borderColor = getBorderColor(clamped);
+                batteryBody.style.borderColor = borderColor;
+                batteryBody.style.boxShadow =
+                    `inset 0 -8px 30px rgba(0,0,0,0.4), 0 0 60px ${borderColor}33, inset 0 0 60px ${borderColor}11`;
+                batteryTerminal.style.borderColor = borderColor;
+                const brightness = 0.06 + (clamped / 100) * 0.15;
+                batteryTerminal.style.background = `rgba(255, 255, 255, ${brightness})`;
+                percentageDisplay.innerHTML = `${clamped}<small>%</small>`;
+                const msgData = getSocialMessage(clamped);
+                statusLabel.textContent = msgData.emoji + ' ' + msgData.estado;
+                if (clamped >= 80) {
+                    statusLabel.style.color = '#4ade80';
+                    statusLabel.style.borderColor = 'rgba(74, 222, 128, 0.2)';
+                } else if (clamped >= 60) {
+                    statusLabel.style.color = '#fbbf24';
+                    statusLabel.style.borderColor = 'rgba(251, 191, 36, 0.2)';
+                } else if (clamped >= 40) {
+                    statusLabel.style.color = '#fb923c';
+                    statusLabel.style.borderColor = 'rgba(251, 146, 60, 0.2)';
+                } else if (clamped >= 20) {
+                    statusLabel.style.color = '#f87171';
+                    statusLabel.style.borderColor = 'rgba(248, 113, 113, 0.2)';
+                } else {
+                    statusLabel.style.color = '#ef4444';
+                    statusLabel.style.borderColor = 'rgba(239, 68, 68, 0.2)';
+                }
+                levelRange.textContent = msgData.range;
+                levelEmoji.textContent = msgData.emoji;
+                const colorHex = getBatteryColor(clamped);
+                meaningText.innerHTML = `
+                <span class="highlight" style="color: #ffffff;">${clamped}%</span> — ${msgData.msg}
+                <span class="advice">${msgData.advice}</span>
+            `;
+                batteryBody.classList.toggle('critical', clamped <= 15);
+                if (addLog && isAdminMode) {
+                    const now = new Date();
+                    const timeStr = formatTime(now);
+                    const msg = logMessage || `Nivel ${clamped}% - ${msgData.estado}`;
+                    const entry = document.createElement('div');
+                    entry.className = 'log-entry';
+                    entry.innerHTML = `<span>${msg}</span><span class="time">${timeStr}</span>`;
+                    logEntries.prepend(entry);
+                    while (logEntries.children.length > 12) {
+                        logEntries.removeChild(logEntries.lastChild);
+                    }
+                }
+            }
+
+            // ===== ADMIN MODE =====
+            function openAdmin() {
+                isAdminMode = true;
+                adminPanel.classList.add('open');
+                adminToggle.classList.add('active');
+                adminToggle.textContent = '🔓';
+            }
+
+            function closeAdmin() {
+                isAdminMode = false;
+                adminPanel.classList.remove('open');
+                adminToggle.classList.remove('active');
+                adminToggle.textContent = '🔧';
+            }
+
+            // ===== FUNCIONES MODAL =====
+            function requestPassword(action) {
+                pendingAction = action;
+                passwordModal.classList.add('active');
+                passwordInput.value = '';
+                errorMsg.textContent = '';
+                passwordInput.focus();
+            }
+
+            function hidePasswordModal() {
+                passwordModal.classList.remove('active');
+                pendingAction = null;
+            }
+
+            // ===== EVENTOS =====
+            adminToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (isAdminMode) {
+                    closeAdmin();
+                } else {
+                    requestPassword('admin');
+                }
+                if (isMenuOpen) toggleMenu();
+            });
+
+            shareBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                requestPassword('share');
+                if (isMenuOpen) toggleMenu();
+            });
+
+            passwordInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') checkPassword();
+            });
+            loginBtn.addEventListener('click', checkPassword);
+            passwordModal.addEventListener('click', function(e) {
+                if (e.target === this) hidePasswordModal();
+            });
+            closeAdminBtn.addEventListener('click', closeAdmin);
+
+            slider.addEventListener('input', function(e) {
+                if (!isAdminMode) return;
+                const val = parseInt(e.target.value, 10);
+                updateUI(val, true, `Slider → ${val}%`);
+            });
+
+            document.querySelectorAll('.quick-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (!isAdminMode) return;
+                    const val = parseInt(this.dataset.value, 10);
+                    const label = this.textContent.trim().replace(/\d+%/, '').trim();
+                    updateUI(val, true, label);
+                });
+            });
+
+            // ===== INICIALIZAR =====
+            updateUI(100, false);
+            const now = new Date();
+            const timeStr = formatTime(now);
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span>🔋 Estado inicial - 100%</span><span class="time">${timeStr}</span>`;
+            logEntries.prepend(entry);
+
+            console.log('[BAT]ERÍA SOCIAL DE BATMAN cargada');
+            console.log('✅ Porcentaje blanco sólido y visible');
+
+        })();
+    </script>
+</body>
+</html>
