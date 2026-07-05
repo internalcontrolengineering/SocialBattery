@@ -1447,7 +1447,9 @@
             const floatingButtons = document.getElementById('floatingButtons');
 
             // ===== ESTADO =====
-            let currentLevel = 100;
+            // Cargar nivel guardado o usar 100% por defecto
+            const savedLevel = localStorage.getItem('bateriaSocialNivel');
+            let currentLevel = savedLevel !== null ? parseInt(savedLevel) : 100;
             let isAdminMode = false;
             let isMenuOpen = false;
             let pendingAction = null;
@@ -1523,7 +1525,6 @@
                                 container.style.border = '1px solid rgba(255,255,255,0.06)';
                                 container.style.borderRadius = '48px';
                                 container.style.color = '#ffffff';
-                                // Forzar porcentaje blanco
                                 const pct = container.querySelector('.percentage');
                                 if (pct) {
                                     pct.style.color = '#ffffff';
@@ -1682,11 +1683,20 @@
                 return `${h}:${m}`;
             }
 
+            // ===== GUARDAR NIVEL EN LOCALSTORAGE =====
+            function saveLevel(level) {
+                localStorage.setItem('bateriaSocialNivel', level.toString());
+            }
+
             // ===== ACTUALIZAR UI =====
             function updateUI(level, addLog = true, logMessage = null) {
                 const clamped = Math.min(100, Math.max(0, Math.round(level)));
                 currentLevel = clamped;
                 slider.value = clamped;
+
+                // Guardar en localStorage
+                saveLevel(clamped);
+
                 liquidContainer.style.height = clamped + '%';
                 liquidBase.style.background = getLiquidGradient(clamped);
                 const borderColor = getBorderColor(clamped);
@@ -1807,17 +1817,17 @@
                 });
             });
 
-            // ===== INICIALIZAR =====
-            updateUI(100, false);
+            // ===== INICIALIZAR CON EL NIVEL GUARDADO =====
+            updateUI(currentLevel, false);
             const now = new Date();
             const timeStr = formatTime(now);
             const entry = document.createElement('div');
             entry.className = 'log-entry';
-            entry.innerHTML = `<span>🔋 Estado inicial - 100%</span><span class="time">${timeStr}</span>`;
+            entry.innerHTML = `<span>🔋 Nivel cargado: ${currentLevel}%</span><span class="time">${timeStr}</span>`;
             logEntries.prepend(entry);
 
             console.log('[BAT]ERÍA SOCIAL DE BATMAN cargada');
-            console.log('✅ Porcentaje blanco sólido y visible');
+            console.log(`✅ Nivel guardado: ${currentLevel}%`);
 
         })();
     </script>
