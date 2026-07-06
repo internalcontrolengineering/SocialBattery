@@ -425,7 +425,7 @@
             z-index: 4;
         }
 
-        /* ===== PORCENTAJE - BLANCO SÓLIDO Y GRANDE ===== */
+        /* ===== PORCENTAJE ===== */
         .percentage {
             font-size: clamp(72px, 16vw, 110px);
             font-weight: 900;
@@ -1447,7 +1447,6 @@
             const floatingButtons = document.getElementById('floatingButtons');
 
             // ===== ESTADO =====
-            // Cargar nivel guardado o usar 100% por defecto
             const savedLevel = localStorage.getItem('bateriaSocialNivel');
             let currentLevel = savedLevel !== null ? parseInt(savedLevel) : 100;
             let isAdminMode = false;
@@ -1499,7 +1498,7 @@
                 }
             });
 
-            // ===== FUNCIÓN COMPARTIR =====
+            // ===== FUNCIÓN COMPARTIR - CORREGIDA =====
             async function shareScreenshot() {
                 try {
                     showToast('📸 Capturando pantalla...', 'info', 2000);
@@ -1535,11 +1534,15 @@
                         }
                     });
 
+                    const imageUrl = canvas.toDataURL('image/png');
                     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-                    const file = new File([blob], 'bateria_social_batman.png', { type: 'image/png' });
 
-                    if (navigator.share && window.innerWidth < 768) {
+                    // --- MÓVIL: usar share API ---
+                    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+                    if (isMobile && navigator.share) {
                         try {
+                            const file = new File([blob], 'bateria_social_batman.png', { type: 'image/png' });
                             await navigator.share({
                                 title: 'Mi Batería Social',
                                 text: '🔋 ¡Mira mi nivel de energía social! 🦇\n\n' +
@@ -1554,25 +1557,46 @@
                                 showToast('⏹️ Compartición cancelada', 'info', 2000);
                                 return;
                             }
+                            console.log('Share API falló, usando método alternativo', shareError);
                         }
                     }
 
-                    const imageUrl = canvas.toDataURL('image/png');
-                    const whatsappUrl =
-                        `https://api.whatsapp.com/send?text=${encodeURIComponent(
+                    // --- PC / Fallback: Copiar al portapapeles + abrir WhatsApp Web ---
+                    let imageCopied = false;
+
+                    // Intentar copiar la imagen al portapapeles
+                    try {
+                        const clipboardItem = new ClipboardItem({
+                            'image/png': blob
+                        });
+                        await navigator.clipboard.write([clipboardItem]);
+                        imageCopied = true;
+                        showToast('📋 Imagen copiada al portapapeles', 'success', 2500);
+                    } catch (clipError) {
+                        console.log('No se pudo copiar al portapapeles:', clipError);
+                        // Descargar la imagen como respaldo
+                        const link = document.createElement('a');
+                        link.download = 'bateria_social_batman.png';
+                        link.href = imageUrl;
+                        link.click();
+                        showToast('📥 Imagen descargada', 'success', 2500);
+                    }
+
+                    // --- Mensaje LIMPIO para WhatsApp (sin instrucciones del portapapeles) ---
+                    const msg = encodeURIComponent(
                         '🔋 ¡Mira mi nivel de energía social! 🦇\n\n' +
                         'Nivel: ' + currentLevel + '% - ' + getSocialMessage(currentLevel).estado + '\n' +
-                        '📊 [BAT]ERÍA SOCIAL DE BATMAN\n\n' +
-                        '⬇️ Adjunto imagen de mi batería social'
-                    )}`;
+                        '📊 [BAT]ERÍA SOCIAL DE BATMAN'
+                    );
 
-                    window.open(whatsappUrl, '_blank');
-                    const link = document.createElement('a');
-                    link.download = 'bateria_social_batman.png';
-                    link.href = imageUrl;
-                    link.click();
+                    // Abrir WhatsApp
+                    if (isMobile) {
+                        window.open(`whatsapp://send?text=${msg}`, '_blank');
+                    } else {
+                        window.open(`https://web.whatsapp.com/send?text=${msg}`, '_blank');
+                    }
 
-                    showToast('✅ Imagen descargada y WhatsApp abierto', 'success', 4000);
+                    showToast('💬 WhatsApp abierto', 'success', 3000);
 
                 } catch (error) {
                     console.error('Error al compartir:', error);
@@ -1683,7 +1707,7 @@
                 return `${h}:${m}`;
             }
 
-            // ===== GUARDAR NIVEL EN LOCALSTORAGE =====
+            // ===== GUARDAR NIVEL =====
             function saveLevel(level) {
                 localStorage.setItem('bateriaSocialNivel', level.toString());
             }
@@ -1693,8 +1717,6 @@
                 const clamped = Math.min(100, Math.max(0, Math.round(level)));
                 currentLevel = clamped;
                 slider.value = clamped;
-
-                // Guardar en localStorage
                 saveLevel(clamped);
 
                 liquidContainer.style.height = clamped + '%';
@@ -1817,7 +1839,7 @@
                 });
             });
 
-            // ===== INICIALIZAR CON EL NIVEL GUARDADO =====
+            // ===== INICIALIZAR =====
             updateUI(currentLevel, false);
             const now = new Date();
             const timeStr = formatTime(now);
