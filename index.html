@@ -1454,6 +1454,16 @@
             let pendingAction = null;
             const PASSWORD = 'Batman';
 
+            // ===== DETECTAR SI ES APP (WebView) =====
+            function isApp() {
+                const ua = navigator.userAgent || navigator.vendor || window.opera;
+                // Detectar WebView (median.co usa "wv" en el user agent)
+                if (ua.indexOf('wv') > -1) return true;
+                // Si no tiene share API, probablemente es un WebView
+                if (typeof navigator.share === 'undefined') return true;
+                return false;
+            }
+
             // ===== TOAST =====
             let toastTimeout = null;
 
@@ -1498,7 +1508,7 @@
                 }
             });
 
-            // ===== FUNCIÓN COMPARTIR - CORREGIDA =====
+            // ===== FUNCIÓN COMPARTIR ADAPTADA PARA APK =====
             async function shareScreenshot() {
                 try {
                     showToast('📸 Capturando pantalla...', 'info', 2000);
@@ -1507,7 +1517,7 @@
                     await new Promise(resolve => setTimeout(resolve, 300));
 
                     const canvas = await html2canvas(captureContainer, {
-                        scale: 2.8,
+                        scale: 1.8,
                         backgroundColor: '#1a1a2e',
                         allowTaint: true,
                         useCORS: true,
@@ -1537,34 +1547,55 @@
                     const imageUrl = canvas.toDataURL('image/png');
                     const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
 
-                    // --- MÓVIL: usar share API ---
                     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                    const isAppView = isApp();
 
-                    if (isMobile && navigator.share) {
-                        try {
-                            const file = new File([blob], 'bateria_social_batman.png', { type: 'image/png' });
-                            await navigator.share({
-                                title: 'Mi Batería Social',
-                                text: '🔋 ¡Mira mi nivel de energía social! 🦇\n\n' +
-                                    `Nivel: ${currentLevel}% - ${getSocialMessage(currentLevel).estado}\n` +
-                                    '📊 [BAT]ERÍA SOCIAL DE BATMAN',
-                                files: [file]
-                            });
-                            showToast('✅ ¡Compartido exitosamente!', 'success');
-                            return;
-                        } catch (shareError) {
-                            if (shareError.name === 'AbortError') {
-                                showToast('⏹️ Compartición cancelada', 'info', 2000);
+                    // --- 📱 APP (APK) o CELULAR ---
+                    if (isMobile || isAppView) {
+                        // Intentar share API solo si NO es app y existe
+                        if (!isAppView && navigator.share) {
+                            try {
+                                const file = new File([blob], 'bateria_social_batman.png', { type: 'image/png' });
+                                await navigator.share({
+                                    title: 'Mi Batería Social',
+                                    text: '🔋 ¡Mira mi nivel de energía social! 🦇\n\n' +
+                                        `Nivel: ${currentLevel}% - ${getSocialMessage(currentLevel).estado}\n` +
+                                        '📊 [BAT]ERÍA SOCIAL DE BATMAN',
+                                    files: [file]
+                                });
+                                showToast('✅ ¡Compartido exitosamente!', 'success');
                                 return;
+                            } catch (shareError) {
+                                if (shareError.name === 'AbortError') {
+                                    showToast('⏹️ Compartición cancelada', 'info', 2000);
+                                    return;
+                                }
                             }
-                            console.log('Share API falló, usando método alternativo', shareError);
                         }
+
+                        // --- MÉTODO PARA APP (APK) - Descarga + WhatsApp ---
+                        // Descargar la imagen
+                        const link = document.createElement('a');
+                        link.download = 'bateria_social_batman.png';
+                        link.href = imageUrl;
+                        link.click();
+
+                        // Abrir WhatsApp con mensaje
+                        const msg = encodeURIComponent(
+                            '🔋 ¡Mira mi nivel de energía social! 🦇\n\n' +
+                            'Nivel: ' + currentLevel + '% - ' + getSocialMessage(currentLevel).estado + '\n' +
+                            '📊 [BAT]ERÍA SOCIAL DE BATMAN\n\n' +
+                            '📎 Adjunta la imagen que se descargó'
+                        );
+
+                        window.open(`whatsapp://send?text=${msg}`, '_blank');
+
+                        showToast('📥 Imagen descargada - adjúntala en WhatsApp', 'success', 4000);
+                        return;
                     }
 
-                    // --- PC / Fallback: Copiar al portapapeles + abrir WhatsApp Web ---
+                    // --- 💻 PC: COPIAR AL PORTAPAPELES ---
                     let imageCopied = false;
-
-                    // Intentar copiar la imagen al portapapeles
                     try {
                         const clipboardItem = new ClipboardItem({
                             'image/png': blob
@@ -1573,8 +1604,6 @@
                         imageCopied = true;
                         showToast('📋 Imagen copiada al portapapeles', 'success', 2500);
                     } catch (clipError) {
-                        console.log('No se pudo copiar al portapapeles:', clipError);
-                        // Descargar la imagen como respaldo
                         const link = document.createElement('a');
                         link.download = 'bateria_social_batman.png';
                         link.href = imageUrl;
@@ -1582,21 +1611,14 @@
                         showToast('📥 Imagen descargada', 'success', 2500);
                     }
 
-                    // --- Mensaje LIMPIO para WhatsApp (sin instrucciones del portapapeles) ---
                     const msg = encodeURIComponent(
                         '🔋 ¡Mira mi nivel de energía social! 🦇\n\n' +
                         'Nivel: ' + currentLevel + '% - ' + getSocialMessage(currentLevel).estado + '\n' +
                         '📊 [BAT]ERÍA SOCIAL DE BATMAN'
                     );
 
-                    // Abrir WhatsApp
-                    if (isMobile) {
-                        window.open(`whatsapp://send?text=${msg}`, '_blank');
-                    } else {
-                        window.open(`https://web.whatsapp.com/send?text=${msg}`, '_blank');
-                    }
-
-                    showToast('💬 WhatsApp abierto', 'success', 3000);
+                    window.open(`https://web.whatsapp.com/send?text=${msg}`, '_blank');
+                    showToast('💬 WhatsApp Web abierto', 'success', 3000);
 
                 } catch (error) {
                     console.error('Error al compartir:', error);
